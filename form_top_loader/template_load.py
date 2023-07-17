@@ -40,8 +40,9 @@ class read_templates():
         #with open('.\\Config\\templates.txt', "r") as ti:
 
         #print(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
-        with open(os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)), 'Config', template_source), "r") as ti:
-        
+        #with open(os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)), 'Config', template_source), "r") as ti:
+        #print(os.path.join(os.path.dirname(__file__),'Config', template_source))
+        with open(os.path.join(os.path.dirname(__file__),'Config', template_source), "r") as ti:
             reader = ti.readlines()
 
             #read each text file line    

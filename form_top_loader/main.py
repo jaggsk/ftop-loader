@@ -57,9 +57,9 @@ class formtop_load_gui:
 
         #read predefined templates
         self.get_templates = tl.read_templates()
-        print(self.get_templates )
+
         self.template_dict = self.get_templates.generate_templates("templates.txt")
-        #print(self.template_dict)
+
 
         #Number of data entry boxes
         self.no_combo_boxes = 70
@@ -96,9 +96,7 @@ class formtop_load_gui:
 
         #self.dummy_load()
 
-        #self.root.iconphoto(False, tk.PhotoImage(file='H:\Python\iepg\Formation Top Loader\doge_icon.PNG'))
-        #self.root.iconphoto(False, tk.PhotoImage(file='.\\Config\\doge_icon.PNG'))
-        self.root.iconphoto(False, tk.PhotoImage(file=os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)), 'Config', 'doge_icon.PNG')))
+        self.root.iconphoto(False, tk.PhotoImage(file=os.path.join(os.path.dirname(__file__),'Config', 'doge_icon.PNG')))
         
 
         self.root.mainloop()
@@ -167,10 +165,8 @@ class formtop_load_gui:
         self.help_menu = tk.Menu(self.menubar, tearoff=False)
         self.help_menu.add_command(
             label='Help',
-            #lambda: self.combobox_template_fill("'Cavendish Area'")
             command = lambda: hfg.play_help_gif()
-            #command = self.root.bind('<<MenuSelect>>', openNewWindow)
-            #command=root.bind(),
+
         )
  
         self.menubar.add_cascade(
@@ -403,7 +399,8 @@ class formtop_load_gui:
         #csv file deined as 
         #csv_well_path = os.path.join(os.path.dirname(__file__), self.well_csv_id)
         #csv_well_path = '.\\Config\\ndr_well_data_list.csv'
-        csv_well_path = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)), 'Config', 'ndr_well_data_list.csv')
+        csv_well_path = os.path.join(os.path.dirname(__file__),'Config', self.well_csv_id)
+        
         #read csv to pandas and export 'Well ID' column to list
         df = pd.read_csv(csv_well_path)
         self.well_list_all = df['Well ID'].tolist()
@@ -707,6 +704,7 @@ class formtop_load_gui:
         depth converted between units if required
         PRECONDITION input database has been filtered to required untis only.
         '''
+
         #obtain correct text header from tops_header_file subroutine
         #boolean operator indicates if output is in feet or metres
         self.text_header = petrel_tops_header_file(feet = self.output_units_ft)
@@ -725,18 +723,15 @@ class formtop_load_gui:
 
             #extract top id and depth for qc (if require) and conversion purposes
             top_temp = df_out.loc[j][tops_col]
-            #print(top_temp)
             depth_temp = float(df_out.loc[j][depth_col])
 
             #convert depth if input = feet and output = metres
             if self.input_units_ft == True and self.output_units_ft == False:
                 depth_temp = round(depth_temp/3.2808399,2)
-                #print(depth_temp)
 
             #convert depth if input = metres and output = feet
             if self.input_units_ft == False and self.output_units_ft == True:
                 depth_temp = round(depth_temp * 3.2808399,2)
-                #print(depth_temp)
 
             #write file output for md top author and well id - attach double quotes to strings for consistency    
             if top_temp != "":
